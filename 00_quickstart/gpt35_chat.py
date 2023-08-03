@@ -1,5 +1,10 @@
+import os
 import openai
-import env
+from dotenv import load_dotenv
+
+load_dotenv()
+GPT_API_MODEL = os.getenv("GPT_API_MODEL")
+GPT_API_VERSION = os.getenv("GPT_API_VERSION")
 
 response = openai.ChatCompletion.create(
     engine=GPT_API_MODEL,  # The deployment name you chose when you deployed the GPT-35-Turbo or GPT-4 model.
