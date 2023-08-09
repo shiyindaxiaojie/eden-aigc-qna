@@ -31,7 +31,7 @@ loader = ConfluenceLoader(
     token=CONFLUENCE_TOKEN
 )
 
-documents = loader.load(page_ids=["17927151"],  # http://localhost:8090/pages/viewpage.action?pageId=17927151
+documents = loader.load(page_ids=["17927151", "11338372", "17927957"],  # http://localhost:8090/pages/viewpage.action?pageId=17927151
                         include_attachments=False,
                         limit=50)
 
@@ -40,8 +40,9 @@ index = VectorstoreIndexCreator(embedding=embedding).from_documents(documents)
 print('索引：', index)
 
 # 提问
+llm = AzureOpenAI(deployment_name=GPT_API_MODEL, openai_api_version=GPT_API_VERSION, temperature=0)
+
 question = '入职要做什么'
 print('提问：', question)
-llm = AzureOpenAI(deployment_name=GPT_API_MODEL, openai_api_version=GPT_API_VERSION, temperature=0)
 result = index.query(question, llm=llm)
 print('回答：', result)
