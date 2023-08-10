@@ -4,11 +4,9 @@ import os
 
 from dotenv import load_dotenv
 from langchain.chains.qa_with_sources import load_qa_with_sources_chain
-from langchain.document_loaders import CSVLoader
 from langchain.embeddings.openai import OpenAIEmbeddings
-from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores import Milvus
-
+from scipy.stats import cosine
 
 def main():
     load_dotenv()
@@ -26,18 +24,13 @@ def main():
         openai_api_key=API_KEY,
         chunk_size=1)
 
-    file_path = "../../data/sample.csv"
-    loader = CSVLoader(file_path=file_path, encoding="utf-8")
-    docs = loader.load()
-
-    vector_store = Milvus.from_documents(
-        docs,
-        embedding=embedding,
-        connection_args={"host": MILVUS_HOST, "port": MILVUS_PORT}
+    vector_store = Milvus(
+        connection_args={"host": MILVUS_HOST, "port": MILVUS_PORT},
+        embedding_function=embedding
     )
 
     query = "什么是前端/后端收费？呵呵呵我我我"
-    docs = vector_store.similarity_search_with_score(query, k=2)
+    docs = vector_store.similarity_search_with_score(query, k=1)
     if docs:
         for doc in docs:
             vector = doc[0]

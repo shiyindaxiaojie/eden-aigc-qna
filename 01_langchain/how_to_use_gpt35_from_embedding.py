@@ -24,7 +24,7 @@ embedding = OpenAIEmbeddings(
     chunk_size=1)
 
 # 源文件
-file = 'data/article.txt'
+file = 'data/sample.txt'
 
 # 自动检测编码
 with open(file, 'rb') as f:
