@@ -49,28 +49,13 @@ def main():
             length_function=len
         )
         chunks = text_splitter.split_documents(data)
-
         vectors = FAISS.from_documents(chunks, embedding)
-        # print('索引：', vectors)
-        #
-        # question = st.text_input("请进行提问:")
-        # print('提问：', question)
-        # if question:
-        #     docs = vectors.similarity_search(question)
-        #
-        #     llm = AzureOpenAI(deployment_name=GPT_API_MODEL, openai_api_version=GPT_API_VERSION, temperature=0)
-        #     chain = load_qa_chain(llm, chain_type="stuff")
-        #     with get_openai_callback() as cb:
-        #         response = chain.run(input_documents=docs, question=question)
-        #         print(cb)
-        #
-        #     st.write(response)
 
         llm = AzureOpenAI(deployment_name=GPT_API_MODEL,
                           openai_api_version=GPT_API_VERSION,
                           temperature=0,
                           max_tokens=150)
-        vectors = FAISS.from_documents(chunks, embedding)
+
         chain = ConversationalRetrievalChain.from_llm(llm, retriever=vectors.as_retriever())
         def conversational_chat(query):
             result = chain({"question": query,
@@ -94,7 +79,7 @@ def main():
 
         with container:
             with st.form(key='my_form', clear_on_submit=True):
-                user_input = st.text_input("Query:", placeholder="Talk about your csv data here (:", key='input')
+                user_input = st.text_input("Query:", placeholder="Talk about your data here (:", key='input')
                 submit_button = st.form_submit_button(label='Send')
 
             if submit_button and user_input:

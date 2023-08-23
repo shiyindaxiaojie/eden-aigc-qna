@@ -1,13 +1,7 @@
 import os
 
 from dotenv import load_dotenv
-from langchain.chat_models import ChatOpenAI
 from langchain.llms import OpenAIChat
-from langchain.schema import (
-    AIMessage,
-    HumanMessage,
-    SystemMessage
-)
 
 load_dotenv()
 GPT_API_MODEL = os.getenv("GPT_API_MODEL")
