@@ -53,7 +53,9 @@ pip install -r requirements.txt
 
 ## 如何启动
 
-在根目录运行以下命令
+根目录下提供了 `.env.template` 环境配置文件，请根据注释填写相关配置，并另存为 `.env` 文件。
+
+然后，在根目录运行以下命令
 
 ```shell
 cd code
