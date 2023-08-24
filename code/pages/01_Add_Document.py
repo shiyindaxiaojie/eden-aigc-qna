@@ -6,7 +6,6 @@ import traceback
 
 import streamlit as st
 from langchain.document_loaders import CSVLoader, PyPDFLoader, TextLoader
-from redis.exceptions import ResponseError
 
 from utilities.blob_client import BlobClient
 from utilities.llm_helper import LLMHelper

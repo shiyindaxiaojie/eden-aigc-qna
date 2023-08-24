@@ -120,10 +120,11 @@ class LLMHelper:
 
     # 获取自然语言处理问题的回答
     def get_semantic_answer(self, question, chat_history):
+        verbose = os.getenv("OPENAI_VERBOSE", "").lower() == "true"
         # 创建问题语言链，简化用户的提问。
-        question_generator = LLMChain(llm=self.llm, prompt=CONDENSE_QUESTION_PROMPT, verbose=True)
+        question_generator = LLMChain(llm=self.llm, prompt=CONDENSE_QUESTION_PROMPT, verbose=verbose)
         # 创建文档语言链，从文档中获取问题答案的信息。
-        doc_chain = load_qa_with_sources_chain(self.llm, chain_type="stuff", verbose=True, prompt=self.prompt)
+        doc_chain = load_qa_with_sources_chain(self.llm, chain_type="stuff", verbose=verbose, prompt=self.prompt)
         # 创建回答生成链，获取给模型生成回答所需的文档，然后生成回答解释。
         chain = ConversationalRetrievalChain(
             retriever=self.vector_store.as_retriever(),
@@ -139,7 +140,7 @@ class LLMHelper:
         print("完整结果：", result)
 
         # 对返回结果的源文档进行处理，得到答案的来源。
-        sources = "\n".join(set(map(lambda x: x.metadata["source"], result["source_documents"])))
+        sources = " \n ".join(set(map(lambda x: x.metadata["source"], result["source_documents"])))
 
         # 根据相关文档生成上下文，以便获得给定问题的答案。
         contextDict = {}

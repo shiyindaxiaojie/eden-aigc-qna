@@ -18,29 +18,34 @@ ARG GROUP=tmpgroup
 ARG HOME=/app
 
 # 环境变量
-ENV OPENAI_API_TYPE azure
+ENV TZ "Asia/Shanghai"
+ENV START_DELAY_SECS 1
+ENV SERVER_PORT 80
+ENV API_PORT 8080
+# OpenAI
+ENV OPENAI_API_TYPE "azure"
 ENV OPENAI_API_BASE ""
 ENV OPENAI_API_KEY ""
-ENV OPENAI_API_VERSION 2023-05-15
-ENV OPENAI_ENGINE gpt-35-turbo
-ENV OPENAI_EMBEDDINGS_ENGINE text-embedding-ada-002
+ENV OPENAI_API_VERSION "2023-05-15"
+ENV OPENAI_ENGINE "gpt-35-turbo"
+ENV OPENAI_EMBEDDINGS_ENGINE "text-embedding-ada-002"
 ENV OPENAI_DEPLOYMENT_TYPE "Chat"
 ENV OPENAI_TEMPERATURE "0.7"
 ENV OPENAI_MAX_TOKENS "-1"
 ENV OPENAI_CHUNK_SIZE 500
 ENV OPENAI_CHUNK_OVERLAP 100
+ENV OPENAI_VERBOSE "true"
 # 向量存储
-ENV VECTOR_STORE_TYPE Redis
+ENV VECTOR_STORE_TYPE "Redis"
 ENV MILVUS_HOST ""
 ENV MILVUS_PORT 19530
-ENV MILVUS_USERNAME aigc
+ENV MILVUS_USERNAME "aigc"
 ENV MILVUS_PASSWORD ""
 ENV REDIS_HOST ""
 ENV REDIS_PORT 6379
 ENV REDIS_PASSWORD ""
 # 文件存储
-ENV BLOB_STORE_ENABLED true
-ENV BLOB_STORE_TYPE COS
+ENV BLOB_STORE_TYPE "COS"
 ENV QCLOUD_COS_REGION ""
 ENV QCLOUD_COS_SECRET_ID ""
 ENV QCLOUD_COS_SECRET_KEY ""
@@ -64,9 +69,8 @@ WORKDIR $HOME
 COPY --from=builder /app/ ./
 
 # 初始化环境
-RUN apt-get update &&  \
-    apt-get install python-tk python3-tk tk-dev -y && \
-    pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
 
-EXPOSE 80
-ENTRYPOINT echo "The application will start in ${START_DELAY_SECS}s..." && sleep ${START_DELAY_SECS} && exec streamlit run Home.py --server.port=80 --server.enableXsrfProtection=false
+EXPOSE ${SERVER_PORT}
+EXPOSE ${API_PORT}
+ENTRYPOINT echo "The application will start in ${START_DELAY_SECS}s..." && sleep ${START_DELAY_SECS} && exec streamlit run Home.py --server.port=${SERVER_PORT} --server.enableXsrfProtection=false

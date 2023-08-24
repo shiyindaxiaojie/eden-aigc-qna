@@ -3,7 +3,7 @@ import logging.handlers
 
 
 class Logger:
-    def __init__(self, logger_name='puyiwm-aigc-qna', level=logging.INFO):
+    def __init__(self, logger_name='qna', level=logging.INFO):
         self.logger_name = logger_name
         self.level = level
 

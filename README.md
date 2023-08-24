@@ -1,5 +1,25 @@
 # AIGC 知识库问答服务
 
+一个基于 OpenAI 实现的知识库问答系统，支持文档上传、向量存储、聊天问答。
+
+## 演示图例
+
+### 聊天问答
+
+![](https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/eden-aigc-qna/chat.png)
+
+### 附件上传
+
+![](https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/eden-aigc-qna/add-document.png)
+
+### 文档管理
+
+![](https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/eden-aigc-qna/document-management.png)
+
+### 索引管理
+
+![](https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/eden-aigc-qna/index-management.png)
+
 ## 准备工作
 
 ### 设置运行环境
@@ -31,7 +51,20 @@ pip install -r requirements.txt
 > 提示 `chromadb` 相关报错，请从 Windows 官网下载 `Visual Studio Install`，选择 C++ 组件执行安装。
 
 
+## 如何启动
 
+在根目录运行以下命令
 
+```shell
+cd code
+streamlit run Home.py
+```
 
+## 如何部署
+
+推荐使用 Docker 镜像部署
+
+```shell
+docker build -t eden-aigc-qna:latest -f docker/Dockerfile .
+```
 
