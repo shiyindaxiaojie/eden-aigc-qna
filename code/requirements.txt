@@ -12,4 +12,4 @@ regex==2023.6.3
 streamlit==1.25.0
 streamlit_chat==0.0.2.2
 tiktoken==0.2.0
-pypdf==3.14.0
+pypdf==3.17.0
